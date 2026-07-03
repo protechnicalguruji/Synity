@@ -13,12 +13,16 @@ import {
   Check,
   Clock,
   ExternalLink,
-  ShieldAlert
+  ShieldAlert,
+  LogOut,
+  Settings,
+  User
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { MOCK_NOTIFICATIONS } from "../../constants";
 import { formatDateTime } from "../../utils";
 import { motion, AnimatePresence } from "motion/react";
+import { useAuth } from "../../providers/AuthProvider";
 
 export interface TopNavProps {
   onOpenMobileSidebar: () => void;
@@ -29,7 +33,9 @@ export const TopNav: React.FC<TopNavProps> = ({
   onOpenMobileSidebar,
   onOpenNewLeadModal,
 }) => {
+  const { user, logout } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -42,9 +48,23 @@ export const TopNav: React.FC<TopNavProps> = ({
     setNotifications(notifications.filter((n) => n.id !== id));
   };
 
+  // Compute greeting based on time of day
+  const hour = new Date().getHours();
+  let greeting = "Good Morning";
+  if (hour >= 12 && hour < 17) greeting = "Good Afternoon";
+  if (hour >= 17) greeting = "Good Evening";
+
+  // Compute current date format (e.g. "Friday, Jul 3, 2026")
+  const currentFormattedDate = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+
   return (
     <header className="sticky top-0 z-30 glass-panel border-b border-[#D8D8D8] px-6 py-3 flex items-center justify-between">
-      {/* Search / Left Action Row */}
+      {/* Search & Greeting / Left Action Row */}
       <div className="flex items-center gap-4 flex-1">
         <button
           onClick={onOpenMobileSidebar}
@@ -53,6 +73,7 @@ export const TopNav: React.FC<TopNavProps> = ({
           <Menu size={20} />
         </button>
 
+        {/* Global Search Bar Placeholder */}
         <div className="relative max-w-xs w-full hidden sm:block">
           <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-[#666666]/75">
             <Search size={15} />
@@ -64,10 +85,14 @@ export const TopNav: React.FC<TopNavProps> = ({
           />
         </div>
         
-        {/* Local time badge for context */}
-        <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 bg-gray-50 border border-gray-100 rounded-md text-[11px] font-mono text-[#666666]">
-          <Clock size={11} />
-          <span>Jul 3, 11:29 AM</span>
+        {/* Current Date & Greeting display */}
+        <div className="hidden lg:flex flex-col items-start gap-0.5 border-l border-[#D8D8D8] pl-4 text-left">
+          <span className="text-sm font-bold text-[#2F2F2F] font-display tracking-tight">
+            {greeting}, {user?.name || "Saksham"} 👋
+          </span>
+          <span className="text-[10px] text-[#666666] font-mono font-medium">
+            {currentFormattedDate}
+          </span>
         </div>
       </div>
 
@@ -87,8 +112,11 @@ export const TopNav: React.FC<TopNavProps> = ({
         {/* Notifications Popover Control */}
         <div className="relative">
           <button
-            onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2.5 rounded-full hover:bg-[#E5E3E7]/50 text-[#60605B] hover:text-[#2F2F2F] transition-all cursor-pointer outline-none focus:ring-2 focus:ring-primary-accent"
+            onClick={() => {
+              setShowNotifications(!showNotifications);
+              setShowProfileMenu(false);
+            }}
+            className="relative p-2.5 rounded-full hover:bg-[#E5E3E7]/50 text-[#60605B] hover:text-[#2F2F2F] transition-all cursor-pointer outline-none focus:ring-2 focus:ring-[#4E4E49]/30"
           >
             <Bell size={18} />
             {unreadCount > 0 && (
@@ -173,6 +201,104 @@ export const TopNav: React.FC<TopNavProps> = ({
                     <span className="text-[9px] font-bold text-[#666666] tracking-wider uppercase">
                       Synity Proactive Sales OS
                     </span>
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Profile Dropdown Menu */}
+        <div className="relative">
+          <button
+            onClick={() => {
+              setShowProfileMenu(!showProfileMenu);
+              setShowNotifications(false);
+            }}
+            className="flex items-center gap-2 p-1 rounded-full hover:bg-[#E5E3E7]/50 transition-all cursor-pointer outline-none focus:ring-2 focus:ring-[#4E4E49]/30"
+          >
+            {user?.avatarUrl ? (
+              <img
+                src={user.avatarUrl}
+                alt={user.name}
+                referrerPolicy="no-referrer"
+                className="h-8 w-8 rounded-full object-cover border border-[#D8D8D8]"
+              />
+            ) : (
+              <div className="h-8 w-8 rounded-full bg-[#8CB9D7]/15 text-[#3b7194] border border-[#8CB9D7]/30 flex items-center justify-center text-xs font-bold uppercase">
+                {user?.name ? user.name.slice(0, 2) : "SK"}
+              </div>
+            )}
+          </button>
+
+          {/* Profile Dropdown List Overlay */}
+          <AnimatePresence>
+            {showProfileMenu && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setShowProfileMenu(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 mt-3 w-56 bg-white border border-[#D8D8D8] rounded-xl shadow-lg z-50 overflow-hidden flex flex-col"
+                >
+                  {/* Profile Detail Header */}
+                  <div className="p-4 border-b border-gray-100 bg-gray-50/40 text-left">
+                    <p className="text-xs font-bold text-[#2F2F2F] truncate">
+                      {user?.name || "Saksham"}
+                    </p>
+                    <p className="text-[10px] text-[#666666] truncate mt-0.5">
+                      {user?.email || "saksham@synity.io"}
+                    </p>
+                    <span className="inline-flex items-center mt-2 px-1.5 py-0.5 rounded-md bg-[#8CB9D7]/10 border border-[#8CB9D7]/25 text-[9px] font-semibold text-[#3b7194] uppercase font-mono">
+                      {user?.role || "Senior Partner"}
+                    </span>
+                  </div>
+
+                  {/* Settings and Info Actions */}
+                  <div className="p-1.5 flex flex-col gap-0.5">
+                    <div className="px-2.5 py-1 text-[9px] font-bold text-gray-400 uppercase tracking-wider text-left">
+                      Sales OS Admin
+                    </div>
+                    
+                    <button
+                      onClick={() => {
+                        setShowProfileMenu(false);
+                        // Redirect/Action can be simulated or let standard UI handle
+                      }}
+                      className="w-full flex items-center gap-2 px-2.5 py-2 text-xs text-[#4E4E49] hover:bg-gray-50 rounded-lg text-left transition-all"
+                    >
+                      <User size={14} className="text-gray-400" />
+                      <span>User Profile Settings</span>
+                    </button>
+                    
+                    <button
+                      onClick={() => {
+                        setShowProfileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2 px-2.5 py-2 text-xs text-[#4E4E49] hover:bg-gray-50 rounded-lg text-left transition-all"
+                    >
+                      <Settings size={14} className="text-gray-400" />
+                      <span>Workspace Config</span>
+                    </button>
+                  </div>
+
+                  {/* Logout Action */}
+                  <div className="p-1.5 border-t border-gray-100 bg-gray-50/10">
+                    <button
+                      onClick={async () => {
+                        setShowProfileMenu(false);
+                        await logout();
+                      }}
+                      className="w-full flex items-center gap-2 px-2.5 py-2 text-xs text-rose-600 hover:bg-rose-50 rounded-lg text-left transition-all font-semibold"
+                    >
+                      <LogOut size={14} />
+                      <span>Sign Out Account</span>
+                    </button>
                   </div>
                 </motion.div>
               </>

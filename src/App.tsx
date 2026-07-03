@@ -264,6 +264,7 @@ function AppContent() {
             tasks={tasks}
             activities={activities}
             onChangeTab={setCurrentTab}
+            onToggleTaskStatus={handleToggleTaskStatus}
           />
         );
       case "leads":
