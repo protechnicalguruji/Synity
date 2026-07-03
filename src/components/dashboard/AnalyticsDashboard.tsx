@@ -71,8 +71,8 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ leads })
   // Recharts Status Breakdown Data
   const statusData = [
     { name: "New Leads", value: leads.filter((l) => l.status === LeadStatus.NEW).length, color: "#8CB9D7" },
-    { name: "Contacted", value: leads.filter((l) => l.status === LeadStatus.CONTACTED).length, color: "#60605B" },
-    { name: "Qualified", value: leads.filter((l) => l.status === LeadStatus.QUALIFIED).length, color: "#4E4E49" },
+    { name: "Called", value: leads.filter((l) => l.status === LeadStatus.CALLED).length, color: "#60605B" },
+    { name: "Interested", value: leads.filter((l) => l.status === LeadStatus.INTERESTED).length, color: "#4E4E49" },
     { name: "Proposal/Negotiation", value: leads.filter((l) => l.status === LeadStatus.PROPOSAL || l.status === LeadStatus.NEGOTIATION).length, color: "#2F2F2F" },
     { name: "Closed Won", value: wonLeads.length, color: "#219653" },
   ].filter((item) => item.value > 0);

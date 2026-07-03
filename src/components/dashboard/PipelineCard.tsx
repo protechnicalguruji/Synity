@@ -6,7 +6,7 @@
 import React from "react";
 import { Phone, MessageSquare, Calendar, Handshake, FileText, CheckCircle2, XCircle, PhoneOff } from "lucide-react";
 import { Card } from "../ui/Card";
-import { Lead } from "../../types";
+import { Lead, LeadStatus } from "../../types";
 
 interface PipelineCardProps {
   leads: Lead[];
@@ -20,20 +20,21 @@ export const PipelineCard: React.FC<PipelineCardProps> = ({
   activeStage = ""
 }) => {
   // Compute counts dynamically from lead database status & notes
-  const countNew = leads.filter((l) => l.status === "NEW").length;
-  const countContacted = leads.filter((l) => l.status === "CONTACTED").length;
-  const countQualified = leads.filter((l) => l.status === "QUALIFIED").length;
-  const countProposal = leads.filter((l) => l.status === "PROPOSAL").length;
-  const countNegotiation = leads.filter((l) => l.status === "NEGOTIATION").length;
-  const countWon = leads.filter((l) => l.status === "CLOSED_WON").length;
-  const countLost = leads.filter((l) => l.status === "CLOSED_LOST").length;
+  const countNew = leads.filter((l) => l.status === LeadStatus.NEW).length;
+  const countCalled = leads.filter((l) => l.status === LeadStatus.CALLED).length;
+  const countFollowUp = leads.filter((l) => l.status === LeadStatus.FOLLOW_UP).length;
+  const countProposal = leads.filter((l) => l.status === LeadStatus.PROPOSAL).length;
+  const countNegotiation = leads.filter((l) => l.status === LeadStatus.NEGOTIATION).length;
+  const countMeeting = leads.filter((l) => l.status === LeadStatus.MEETING).length;
+  const countWon = leads.filter((l) => l.status === LeadStatus.CLOSED_WON).length;
+  const countLost = leads.filter((l) => l.status === LeadStatus.CLOSED_LOST).length;
 
   // Let's create the 8 specific pipeline categories requested by the user
   const categories = [
     {
       id: "stage-called",
       title: "Called",
-      count: countContacted,
+      count: countCalled,
       icon: <Phone size={15} />,
       color: "border-blue-200 text-blue-600 bg-blue-50/20 hover:bg-blue-50/50",
       activeColor: "ring-2 ring-blue-500 bg-blue-50/60"
@@ -42,7 +43,7 @@ export const PipelineCard: React.FC<PipelineCardProps> = ({
       id: "stage-whatsapp",
       title: "WhatsApp Sent",
       // Derive or default to a subset of contacted leads with notes containing whatsapp
-      count: Math.max(1, leads.filter(l => l.notes?.toLowerCase().includes("whatsapp")).length),
+      count: leads.filter(l => l.status === LeadStatus.WHATSAPP_SENT).length,
       icon: <MessageSquare size={15} />,
       color: "border-emerald-200 text-emerald-600 bg-emerald-50/20 hover:bg-emerald-50/50",
       activeColor: "ring-2 ring-emerald-500 bg-emerald-50/60"
@@ -50,7 +51,7 @@ export const PipelineCard: React.FC<PipelineCardProps> = ({
     {
       id: "stage-followup",
       title: "Follow Up",
-      count: countQualified,
+      count: countFollowUp,
       icon: <Calendar size={15} />,
       color: "border-purple-200 text-purple-600 bg-purple-50/20 hover:bg-purple-50/50",
       activeColor: "ring-2 ring-purple-500 bg-purple-50/60"
@@ -58,7 +59,7 @@ export const PipelineCard: React.FC<PipelineCardProps> = ({
     {
       id: "stage-meeting",
       title: "Meeting",
-      count: countNegotiation,
+      count: countMeeting,
       icon: <Handshake size={15} />,
       color: "border-amber-200 text-amber-600 bg-amber-50/20 hover:bg-amber-50/50",
       activeColor: "ring-2 ring-amber-500 bg-amber-50/60"
@@ -91,7 +92,7 @@ export const PipelineCard: React.FC<PipelineCardProps> = ({
       id: "stage-noanswer",
       title: "No Answer",
       // Simple fallback or check for notes containing "no answer", "busy", "decline"
-      count: leads.filter(l => l.notes?.toLowerCase().includes("no answer") || l.notes?.toLowerCase().includes("busy")).length,
+      count: leads.filter(l => l.status === LeadStatus.NO_ANSWER).length,
       icon: <PhoneOff size={15} />,
       color: "border-gray-200 text-gray-500 bg-gray-50/20 hover:bg-gray-50/50",
       activeColor: "ring-2 ring-gray-400 bg-gray-100"

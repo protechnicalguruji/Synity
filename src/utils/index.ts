@@ -104,19 +104,27 @@ export function getStatusStyle(status: LeadStatus): {
 } {
   switch (status) {
     case LeadStatus.NEW:
-      return { bg: "bg-[#E5F3FC]", text: "text-[#1C75BC]", label: "New Lead" };
-    case LeadStatus.CONTACTED:
-      return { bg: "bg-[#FDF4E2]", text: "text-[#B77C13]", label: "Contacted" };
-    case LeadStatus.QUALIFIED:
-      return { bg: "bg-[#E2F7EB]", text: "text-[#1B7C43]", label: "Qualified" };
+      return { bg: "bg-[#E5F3FC]", text: "text-[#1C75BC]", label: "New" };
+    case LeadStatus.CALLED:
+      return { bg: "bg-[#E2F0FD]", text: "text-[#0A66C2]", label: "Called" };
+    case LeadStatus.NO_ANSWER:
+      return { bg: "bg-[#FFF0F0]", text: "text-[#D32F2F]", label: "No Answer" };
+    case LeadStatus.INTERESTED:
+      return { bg: "bg-[#E8F5E9]", text: "text-[#2E7D32]", label: "Interested" };
+    case LeadStatus.WHATSAPP_SENT:
+      return { bg: "bg-[#E8F8F0]", text: "text-[#075E54]", label: "WhatsApp Sent" };
+    case LeadStatus.FOLLOW_UP:
+      return { bg: "bg-[#FCF3E3]", text: "text-[#D97706]", label: "Follow Up" };
+    case LeadStatus.MEETING:
+      return { bg: "bg-[#EEF2F6]", text: "text-[#475569]", label: "Meeting" };
     case LeadStatus.PROPOSAL:
-      return { bg: "bg-[#F6E8FC]", text: "text-[#8E44AD]", label: "Proposal Sent" };
+      return { bg: "bg-[#F6E8FC]", text: "text-[#8E44AD]", label: "Proposal" };
     case LeadStatus.NEGOTIATION:
-      return { bg: "bg-[#E6F0FA]", text: "text-[#2980B9]", label: "Negotiating" };
+      return { bg: "bg-[#E6F0FA]", text: "text-[#2980B9]", label: "Negotiation" };
     case LeadStatus.CLOSED_WON:
-      return { bg: "bg-[#E6F4EA]", text: "text-[#137333]", label: "Won 🎉" };
+      return { bg: "bg-[#E6F4EA]", text: "text-[#137333]", label: "Closed Won 🎉" };
     case LeadStatus.CLOSED_LOST:
-      return { bg: "bg-[#FCE8E6]", text: "text-[#C5221F]", label: "Lost" };
+      return { bg: "bg-[#FCE8E6]", text: "text-[#C5221F]", label: "Closed Lost" };
     default:
       return { bg: "bg-gray-100", text: "text-gray-800", label: "Unknown" };
   }

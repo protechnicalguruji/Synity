@@ -5,8 +5,12 @@
 
 export enum LeadStatus {
   NEW = "NEW",
-  CONTACTED = "CONTACTED",
-  QUALIFIED = "QUALIFIED",
+  CALLED = "CALLED",
+  NO_ANSWER = "NO_ANSWER",
+  INTERESTED = "INTERESTED",
+  WHATSAPP_SENT = "WHATSAPP_SENT",
+  FOLLOW_UP = "FOLLOW_UP",
+  MEETING = "MEETING",
   PROPOSAL = "PROPOSAL",
   NEGOTIATION = "NEGOTIATION",
   CLOSED_WON = "CLOSED_WON",
@@ -35,17 +39,25 @@ export enum ActivityType {
 
 export interface Lead {
   id: string;
-  name: string;
-  company: string;
+  name: string; // Owner Name / Contact Name
+  company: string; // Business Name
   email: string;
   phone?: string;
-  value: number;
+  whatsapp?: string;
+  website?: string;
+  industry?: string;
+  country?: string;
+  value: number; // Estimated Deal Value
   status: LeadStatus;
-  source: string;
+  source: string; // Lead Source
+  priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
   createdAt: string;
   nextFollowUp?: string;
-  confidenceScore: number; // Percentage 0 - 100 calculated by AI/rules
+  confidenceScore: number; // Percentage 0 - 100
   notes?: string;
+  tags?: string[];
+  updatedAt?: string;
+  lastContactedAt?: string;
 }
 
 export interface Task {

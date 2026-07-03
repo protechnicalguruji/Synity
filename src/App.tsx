@@ -109,6 +109,7 @@ function AppContent() {
       phone: formPhone || undefined,
       status: formStatus,
       source: formSource,
+      priority: "MEDIUM",
       notes: formNotes || undefined,
       createdAt: new Date().toISOString(),
       confidenceScore: finalPropensity,
@@ -271,6 +272,11 @@ function AppContent() {
         return (
           <LeadsHub
             leads={leads}
+            setLeads={setLeads}
+            tasks={tasks}
+            setTasks={setTasks}
+            activities={activities}
+            setActivities={setActivities}
             onUpdateLeadStatus={handleUpdateLeadStatus}
             onDeleteLead={handleDeleteLead}
             onOpenNewLeadModal={() => setIsNewLeadModalOpen(true)}
@@ -436,8 +442,8 @@ function AppContent() {
               onChange={(e) => setFormStatus(e.target.value as LeadStatus)}
             >
               <option value={LeadStatus.NEW}>New Leads Hub</option>
-              <option value={LeadStatus.CONTACTED}>Contacted Opportunity</option>
-              <option value={LeadStatus.QUALIFIED}>Qualified Deal</option>
+              <option value={LeadStatus.CALLED}>Called Opportunity</option>
+              <option value={LeadStatus.INTERESTED}>Interested Deal</option>
               <option value={LeadStatus.PROPOSAL}>Proposal Sent</option>
             </select>
           </div>

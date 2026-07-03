@@ -7,7 +7,7 @@ import React from "react";
 import { Phone, MessageSquare, Handshake, FileText, IndianRupee, Sparkles } from "lucide-react";
 import { Card } from "../ui/Card";
 import { ProgressRing } from "./ProgressRing";
-import { Lead, Task, TaskStatus } from "../../types";
+import { Lead, Task, TaskStatus, LeadStatus } from "../../types";
 
 interface MissionCardProps {
   leads: Lead[];
@@ -48,7 +48,7 @@ export const MissionCard: React.FC<MissionCardProps> = ({ leads, tasks }) => {
 
   // Calculate dynamic estimated value from active pipeline (qualified + proposal + negotiation)
   const activePipelineValue = leads
-    .filter((l) => l.status === "QUALIFIED" || l.status === "PROPOSAL" || l.status === "NEGOTIATION")
+    .filter((l) => l.status === LeadStatus.INTERESTED || l.status === LeadStatus.PROPOSAL || l.status === LeadStatus.NEGOTIATION)
     .reduce((sum, l) => sum + l.value, 0);
 
   // Format as Rupees or Dollars, let's display Rupees ₹82,000 or the active value converted to Rupees

@@ -7,7 +7,7 @@ import React from "react";
 import { Sparkles, ArrowRight, User, TrendingUp, AlertCircle } from "lucide-react";
 import { Card } from "../ui/Card";
 import { Badge } from "../ui/Badge";
-import { Lead } from "../../types";
+import { Lead, LeadStatus } from "../../types";
 import { getStatusStyle, getConfidenceColor } from "../../utils";
 
 interface PriorityLeadCardProps {
@@ -24,27 +24,27 @@ export const PriorityLeadCard: React.FC<PriorityLeadCardProps> = ({ leads, onOpe
   // Helper to determine custom action & reason dynamically based on lead info
   const getAiActionAndReason = (lead: Lead) => {
     switch (lead.status) {
-      case "NEW":
+      case LeadStatus.NEW:
         return {
           action: "Schedule Discovery Call",
           reason: "Lead registered via outreach with no active contact logs."
         };
-      case "CONTACTED":
+      case LeadStatus.CALLED:
         return {
           action: "Draft Custom Proposal",
           reason: "Prospect requested a structured pricing blueprint."
         };
-      case "QUALIFIED":
+      case LeadStatus.INTERESTED:
         return {
           action: "Send Feature Demonstration",
           reason: "High closing propensity. Ready for detailed CRM preview."
         };
-      case "PROPOSAL":
+      case LeadStatus.PROPOSAL:
         return {
           action: "Follow Up Today",
           reason: `No contact logged for 3 days since proposal V1.1 delivery.`
         };
-      case "NEGOTIATION":
+      case LeadStatus.NEGOTIATION:
         return {
           action: "Secure Legal Review Sync",
           reason: "Contract draft currently pending. Urgent to clear barriers."
