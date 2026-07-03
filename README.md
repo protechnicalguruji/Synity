@@ -1,11 +1,187 @@
-<div align="center">
+# Synity — Production-Grade AI Sales Operating System
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Synity is a premium, modern **AI Sales Operating System** designed to actively help salespeople, web developers, marketing agencies, and freelancers close more deals. Unlike traditional CRMs that serve merely as static data storehouses, Synity proactively guides client touch-points, schedules high-propensity tasks, tracks pipeline valuations, and prevents missed follow-ups.
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## 💎 Project Vision & Philosophy
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+> *"Don't just store leads. Help users close them."*
 
-</div>
+Every single component, visual container, and workflow inside Synity is calibrated around three functional answers:
+1. **Does it save time?** (e.g., rapid creation popups and contextual action items).
+2. **Does it reduce manual work?** (e.g., automated follow-up scheduling and smart status badge mappings).
+3. **Does it increase sales/prevent forgotten leads?** (e.g., close-propensity metric scores and dedicated follow-up visual indices).
+
+---
+
+## 🎨 Visual Identity & Styling System
+
+The user interface draws inspiration from premium SaaS products such as **Linear**, **Notion**, and **Stripe**, prioritizing spacious, quiet, and highly polished layouts.
+
+### Color Palette Configured
+*   **Primary Dark:** `#4E4E49` (Slate/Khaki hybrid accenting primary UI buttons)
+*   **Secondary Dark:** `#60605B` (Support typography and muted structures)
+*   **Primary Accent:** `#8CB9D7` (High propensity highlight, indicators, and charts)
+*   **Background Canvas:** `#E5E3E7` (Soft, warm off-white layout)
+*   **Surface Containers:** `#FFFFFF` (Card panels and tables)
+*   **Typography Text:** `#2F2F2F` (Deep readable charcoal gray)
+*   **Muted Elements:** `#666666` (Subtle captions and guidelines)
+*   **Borders:** `#D8D8D8` (Thin borders separating grid blocks)
+
+### Typography Pairing
+*   **Primary Copy:** `Inter` (Excellent legibility, balanced weights, clean vertical rhythm)
+*   **Display Headings:** `Space Grotesk` (Tech-forward geometric display lettering)
+*   **Indicators/Metadata:** `JetBrains Mono` (System numbers, currency amounts, timestamps)
+
+---
+
+## 📁 System Architecture & Directory Tree
+
+We have implemented a highly modular, clean, and scalable architecture:
+
+```text
+/
+├── .env.example            # Environment variables placeholder
+├── index.html              # Core application index entry
+├── metadata.json           # Application name, description, and permissions
+├── package.json            # Managed scripts, dependencies, and metadata
+├── tsconfig.json           # TypeScript compilation settings
+├── vite.config.ts          # Vite build parameters
+└── src/
+    ├── App.tsx             # Global coordinator (State manager, tab-router, modals)
+    ├── index.css           # Global typography loading, scrollbar & Tailwind configurations
+    ├── main.tsx            # React application renderer
+    ├── vite-env.d.ts       # TypeScript environment overrides for Vite client envs
+    ├── types/
+    │   └── index.ts        # Contract types (Leads, Pipelines, Tasks, Activities, etc.)
+    ├── constants/
+    │   └── index.ts        # Sidebar metadata, sources list, and rich high-fidelity mockups
+    ├── utils/
+    │   └── index.ts        # safe clsx/tailwind-merge cn(), date/currency formatters, badge styles
+    ├── hooks/
+    │   └── useAuth.ts      # Custom unified hook to access current user & auth functions
+    ├── providers/
+    │   └── AuthProvider.tsx # Global authentication context with real-time listeners and demo fallback
+    ├── lib/
+    │   └── supabase/
+    │       ├── client.ts    # Resilient browser client initialization
+    │       ├── server.ts    # Secure server client template for backend proxy services
+    │       └── middleware.ts # Public vs. Protected routing authorization configurations
+    └── components/
+        ├── auth/           # Fully integrated SaaS security views
+        │   ├── LoginView.tsx # Welcome Back view with Google SSO, Remember Me, and validation
+        │   ├── SignupView.tsx # Access request view with validation & confirm matching
+        │   ├── ForgotPasswordView.tsx # Email recovery dispatcher with high fidelity success card
+        │   └── ResetPasswordView.tsx # New credentials configuration form
+        ├── ui/             # Highly reusable core visual system elements
+        │   ├── Button.tsx  # Framer Motion powered responsive button variants
+        │   ├── Card.tsx    # Crisp borders, elegant shadows container
+        │   ├── Badge.tsx   # Visual status labels
+        │   ├── Input.tsx   # Custom label inputs, textareas, and selectors
+        │   ├── Modal.tsx   # Overlay with premium enter/exit spring animations
+        │   ├── Toast.tsx   # Slide-and-fade notification notifier cards (success/error/info)
+        │   ├── EmptyState.tsx # High-fidelity illustrations and action tips
+        │   ├── Loading.tsx # Shimmer loaders and custom skeleton grids
+        │   └── ErrorBoundary.tsx # Resilient fallback crash container
+        └── shared/         # Universal layout assemblies
+            ├── Sidebar.tsx # Left collapsible navigation, synced with live active user profile & logout
+            └── TopNav.tsx  # Top bar with quick creation triggers and notification center
+```
+
+---
+
+## 🔒 Supabase Authentication Engine
+
+The authentication layer features production-grade security, error-handling, and elegant visual states.
+
+### Running Live Production Mode
+To connect your own live Supabase Cloud database:
+1. Copy `.env.example` to `.env`.
+2. Populate the following client-side environment keys in your settings tab:
+   ```env
+   VITE_SUPABASE_URL="https://your-project-id.supabase.co"
+   VITE_SUPABASE_ANON_KEY="your-anon-public-key"
+   ```
+3. Restart the server or refresh your browser. The application will automatically detect the credentials, bind real-time auth listeners, and synchronize user sessions.
+
+### Resilient Demo Sandbox Fallback
+If the Supabase keys are not configured yet, the Sales OS will **automatically fall back to a high-fidelity local Sandbox Mode** instead of crashing or locking up:
+* **Immediate Evaluation**: Use any sample credentials (or `alex.rivers@synity.io` with password `123456`) to access the full crm capabilities instantly.
+* **Local Persistence**: Signed-up users and updated passwords are saved to client-side local storage and persist across tab refreshes.
+
+---
+
+## 🗄️ Supabase PostgreSQL Database Architecture
+
+Synity Sales OS is powered by a high-performance, enterprise-grade PostgreSQL schema hosted on Supabase. It is fully optimized for AI workflows, Row-Level Security (RLS) data isolation, and massive scale.
+
+### 📐 Schema Entity-Relationship Model
+
+The database establishes a highly index-optimized relational web:
+* **One User Profile** (`auth.users`) $\rightarrow$ **Many Leads**
+* **One Lead** $\rightarrow$ **Many Activities**, **Many Follow-Ups**, **Many Meetings**, **Many Tasks**, **Many AI Insights**, and **One Lost Reason**
+
+### 📊 Core Tables & Fields
+
+1. **`profiles`**: User metadata & productivity settings.
+   * `id` (UUID, references `auth.users` on delete cascade, Primary Key)
+   * `full_name` (Text), `company_name` (Text), `phone` (Text), `country` (Text), `timezone` (Text), `daily_lead_target` (Integer, default 5), `avatar_url` (Text)
+   * `created_at` (Timestamp), `updated_at` (Timestamp)
+2. **`leads`**: Master pipeline prospects.
+   * `id` (UUID, Primary Key), `user_id` (UUID, references `auth.users`), `business_name` (Text), `owner_name` (Text), `phone` (Text), `whatsapp` (Text), `email` (Text), `website` (Text), `industry` (Text), `country` (Text)
+   * `status` (`lead_status` ENUM), `priority` (`priority_level` ENUM), `estimated_value` (Numeric), `source` (Text), `notes` (Text), `last_contacted_at` (Timestamp), `next_follow_up_at` (Timestamp)
+   * `created_at`, `updated_at` (Timestamp)
+3. **`activities`**: Automated & manual sales touchpoints log.
+   * `id`, `lead_id` (UUID, references `leads`), `user_id`, `activity_type` (Text), `description` (Text), `metadata` (JSONB), `created_at`
+4. **`follow_ups`**: Time-sensitive pipeline follow-ups.
+   * `id`, `lead_id`, `user_id`, `scheduled_at` (Timestamp), `completed` (Boolean), `completed_at` (Timestamp), `followup_type` (Text), `notes`, `created_at`
+5. **`meetings`**: High-fidelity events scheduler.
+   * `id`, `lead_id`, `user_id`, `title` (Text), `meeting_time` (Timestamp), `duration` (Integer, minutes), `location` (Text), `meeting_type` (Text), `notes` (Text), `status` (Text), `created_at`
+6. **`tasks`**: Actionable standard operating items.
+   * `id`, `user_id`, `lead_id` (Nullable), `title` (Text), `description` (Text), `priority` (`priority_level` ENUM), `status` (`task_status` ENUM), `due_date` (Timestamp), `completed_at`, `created_at`
+7. **`lost_reasons`**: Lost deal analytics capture.
+   * `id`, `lead_id`, `user_id`, `reason` (Text), `details` (Text), `created_at`
+8. **`ai_insights`**: Predictive scoring and action prompts.
+   * `id`, `user_id`, `lead_id`, `insight_type` (Text), `title` (Text), `description` (Text), `confidence_score` (Numeric), `created_at`
+9. **`notifications`**: Real-time app alerts.
+   * `id`, `user_id`, `title` (Text), `message` (Text), `type` (`notification_type` ENUM), `is_read` (Boolean), `created_at`
+10. **`import_jobs`**: Smart CSV/XLSX lead import historical queue.
+    * `id`, `user_id`, `file_name` (Text), `file_type` (Text), `total_records` (Integer), `successful_records`, `failed_records`, `status` (Text), `created_at`
+
+### 🔒 Row-Level Security (RLS) & Multi-Tenant Isolation
+
+Data privacy is strictly enforced directly inside the database engine.
+* **RLS Enabled**: RLS is explicitly configured on all 10 custom tables.
+* **Complete User Isolation**: Users can *only* select, insert, update, or delete records where the record's `user_id` matches their own verified Supabase JWT `auth.uid()`.
+* **Profile Protection**: User profile cards are bound via `auth.uid() = id`, allowing only the registered account owner read/write capability.
+
+### ⚡ Database Performance Tuning (Indexes & Triggers)
+
+* **Lightning-Fast Query Indexes**: Highly-performant B-Tree indexes are created for all searchable and filterable fields including:
+  * `user_id`, `status`, `phone`, `email`, `business_name`, `next_follow_up_at`, `meeting_time`, `due_date`, `created_at`
+* **Automated `updated_at` Updates**: Registered PL/pgSQL database triggers automatically manage temporal syncing of `updated_at` timestamps on mutates.
+* **Auto-Provision Profiles on Signup**: A PostgreSQL trigger on `auth.users` automatically replicates and registers a custom profile card in `public.profiles` the instant a user completes register validation!
+
+---
+
+## ⚡ Setup & Migration Instructions
+
+### 1. Cloud Database Migration (Supabase CLI / SQL Editor)
+To apply the complete database architecture to your live Supabase instance:
+1. Open your **Supabase Dashboard** and go to the **SQL Editor** tab.
+2. Open the migration file: `/supabase/migrations/20260703120000_create_sales_os_schema.sql` and copy its entire contents.
+3. Paste the code into the Supabase SQL Editor and click **Run**.
+4. The tables, custom Postgres ENUM types, triggers, indexes, and a set of 20 realistic sandbox seed records will be instantly created on your Cloud Postgres database!
+
+### 2. High-Fidelity Local DB Sandbox Fallback
+If environment keys are not configured, the application **automatically uses the unified database manager fallback (`src/lib/supabase/db.ts`)** which loads identical seed records, matches the PostgreSQL types, and maintains full local stateful reactivity (synced to browser storage). Add your keys in settings anytime to switch seamlessly to live Cloud syncing!
+
+---
+
+## 🔋 Next Steps
+
+1. **Gemini AI Integration**:
+   * Implement server-side proxies (`/api/ai/score`, `/api/ai/follow-up`) using the `@google/genai` TypeScript SDK.
+   * Leverage client-authored sales notes to dynamically update a lead's `confidenceScore` and draft tailored outreach content.
+
