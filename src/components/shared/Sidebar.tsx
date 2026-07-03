@@ -53,6 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const initials = user ? getInitials(user.name) : "AR";
 
   const menuItems = [
+    { id: "today", label: "AI Daily Planner", icon: <Sparkles size={18} />, badge: "AI" },
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
     { id: "leads", label: "Leads Hub", icon: <Users size={18} />, badge: "6" },
     { id: "pipeline", label: "Visual Pipeline", icon: <Kanban size={18} /> },

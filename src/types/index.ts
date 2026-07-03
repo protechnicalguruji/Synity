@@ -105,3 +105,62 @@ export interface UserProfile {
   role: string;
   avatarUrl?: string;
 }
+
+// -----------------------------------------------------------------
+// AI DAILY PLANNER & SMART TASK ENGINE TYPES
+// -----------------------------------------------------------------
+
+export enum PlannerTaskType {
+  MEETING = "MEETING",
+  FOLLOW_UP = "FOLLOW_UP",
+  CALLBACK = "CALLBACK",
+  PROPOSAL = "PROPOSAL",
+  NEW_LEAD = "NEW_LEAD",
+  TASK = "TASK"
+}
+
+export enum PlannerTaskStatus {
+  TODO = "TODO",
+  DONE = "DONE",
+  SKIPPED = "SKIPPED",
+  RESCHEDULED = "RESCHEDULED"
+}
+
+export interface PlannerItem {
+  id: string;
+  type: PlannerTaskType;
+  title: string;
+  description?: string;
+  leadId?: string;
+  leadName?: string;
+  companyName?: string;
+  estimatedMinutes: number;
+  status: PlannerTaskStatus;
+  priority: "URGENT" | "HIGH" | "MEDIUM" | "LOW";
+  scheduledTime?: string; // UTC ISO timestamp or time string
+  completedAt?: string;
+  notes?: string;
+}
+
+export interface PlannerPreferences {
+  newLeadsTarget: number;
+  hasCompletedSetup: boolean;
+}
+
+export interface StreakData {
+  dailyCompletion: number;
+  weeklyCompletion: number;
+  currentStreak: number;
+  longestStreak: number;
+  lastCompletedDate?: string;
+}
+
+export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  unlocked: boolean;
+  unlockedAt?: string;
+  icon: string;
+}
+

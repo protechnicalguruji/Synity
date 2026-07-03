@@ -18,6 +18,7 @@ import { PipelineBoard } from "./components/dashboard/PipelineBoard";
 import { TasksView } from "./components/dashboard/TasksView";
 import { AnalyticsDashboard } from "./components/dashboard/AnalyticsDashboard";
 import { SettingsView } from "./components/dashboard/SettingsView";
+import { TodayView } from "./components/dashboard/TodayView";
 
 // Data & constants
 import {
@@ -43,7 +44,7 @@ function AppContent() {
   const [authScreen, setAuthScreen] = useState<"login" | "signup" | "forgot" | "reset">("login");
 
   // Navigation & Drawer States
-  const [currentTab, setCurrentTab] = useState<string>("dashboard");
+  const [currentTab, setCurrentTab] = useState<string>("today");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isNewLeadModalOpen, setIsNewLeadModalOpen] = useState(false);
@@ -258,6 +259,17 @@ function AppContent() {
   // -----------------------------------------------------------------
   const renderActiveModule = () => {
     switch (currentTab) {
+      case "today":
+        return (
+          <TodayView
+            leads={leads}
+            setLeads={setLeads}
+            tasks={tasks}
+            setTasks={setTasks}
+            activities={activities}
+            setActivities={setActivities}
+          />
+        );
       case "dashboard":
         return (
           <Overview
