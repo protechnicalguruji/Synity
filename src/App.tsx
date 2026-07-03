@@ -286,6 +286,11 @@ function AppContent() {
         return (
           <PipelineBoard
             leads={leads}
+            setLeads={setLeads}
+            tasks={tasks}
+            setTasks={setTasks}
+            activities={activities}
+            setActivities={setActivities}
             onUpdateLeadStatus={handleUpdateLeadStatus}
           />
         );
