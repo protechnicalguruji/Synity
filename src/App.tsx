@@ -20,6 +20,7 @@ import { AnalyticsDashboard } from "./components/dashboard/AnalyticsDashboard";
 import { SettingsView } from "./components/dashboard/SettingsView";
 import { TodayView } from "./components/dashboard/TodayView";
 import { ImportHub } from "./components/import/ImportHub";
+import { CommunicationHub } from "./components/communication/CommunicationHub";
 
 // Data & constants
 import {
@@ -319,6 +320,31 @@ function AppContent() {
         );
       case "analytics":
         return <AnalyticsDashboard leads={leads} />;
+      case "communication":
+        return (
+          <CommunicationHub
+            leads={leads}
+            activities={activities}
+            tasks={tasks}
+            onAddActivity={(activityInput) => {
+              const newActivity: ActivityLog = {
+                id: `act-${Date.now()}`,
+                timestamp: new Date().toISOString(),
+                ...activityInput
+              };
+              setActivities((prev) => [newActivity, ...prev]);
+            }}
+            onAddTask={(taskInput) => {
+              const newTask: Task = {
+                id: `task-${Date.now()}`,
+                status: TaskStatus.TODO,
+                ...taskInput
+              };
+              setTasks((prev) => [newTask, ...prev]);
+            }}
+            onUpdateLeadStatus={handleUpdateLeadStatus}
+          />
+        );
       case "import":
         return (
           <ImportHub

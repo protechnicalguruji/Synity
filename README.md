@@ -207,6 +207,29 @@ Synity's Smart Import Hub is an enterprise-grade lead ingestion system engineere
 
 ---
 
+## ⚡ Flagship Feature: Universal Communication Hub
+
+Synity's Universal Communication Hub is a comprehensive unified cockpit coordinating all outbound channels into a single, cohesive timeline, avoiding the friction of switching applications.
+
+### 📐 Three-Panel Architectural Layout
+1.  **Left Panel: Conversation List**: 
+    *   **Pins & VIP Segment**: Easily pin crucial client threads to separate them from general feeds.
+    *   **Channel Filtration**: Seamlessly isolate conversations by Email, WhatsApp, or Phone Logs.
+    *   **Interactive Search**: Instantly query chats matching names, emails, company variables, or snippets.
+2.  **Center Panel: Chronological Active Thread**:
+    *   **Rich Message Bubble Handling**: Elegant components displaying PDF attachments, shared locations, and playable voice wave bars.
+    *   **Event Sync Logs**: Automatically displays scheduled calendar meetings, sent proposals, and pipeline status swaps chronologically alongside messages.
+    *   **Smart Message Composer**: Complete rich composer providing inline emoji pickers, standard calendar-based schedule-send delays, template drawers, and custom AI Reply suggestions.
+3.  **Right Panel: Lead Profile & Metadata Directory**:
+    *   **Contact Summary**: Displays estimated deal sizes, CRM stages, and real-time SLA health trackers.
+    *   **Unified Quick Outbound Actions**: Quick actions trigger direct dial simulations, WhatsApp template delivery, email routing, task additions, and follow-up schedules.
+    *   **Co-Pilot AI Insights**: Evaluates sentiment index, captures user intent maps, suggests next-best-action blueprints, and flags thread risk ratios.
+
+### 🔄 Multi-Channel Unified Timeline Sync
+Every sent WhatsApp, dial log, and scheduled sync event created inside the Communication Hub automatically synchronizes with the core CRM pipeline, creating standard logs inside the main Activity Timeline and generating priority follow-up tasks inside the AI Daily Planner.
+
+---
+
 ## 🔋 Next Steps
 
 1. **Gemini AI Integration**:
