@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { Sparkles, Calendar, Plus, Users, ArrowRight } from "lucide-react";
+import { Sparkles, Calendar, Plus, Users, ArrowRight, RefreshCw, AlertCircle, ShieldAlert, GraduationCap } from "lucide-react";
 import { MissionCard } from "./MissionCard";
 import { PriorityLeadCard } from "./PriorityLeadCard";
 import { TaskCard } from "./TaskCard";
@@ -16,6 +16,10 @@ import { MonthlyStats } from "./MonthlyStats";
 import { AIRecommendationCard } from "./AIRecommendationCard";
 import { QuickActions } from "./QuickActions";
 import { Lead, Task, ActivityLog } from "../../types";
+import { useGlobalAI } from "../../lib/ai/hooks/useAI";
+import { AISummary } from "../ai/AISummary";
+import { CoachingCard } from "../ai/CoachingCard";
+import { RiskCard } from "../ai/RiskCard";
 
 interface OverviewProps {
   leads: Lead[];
@@ -33,6 +37,17 @@ export const Overview: React.FC<OverviewProps> = ({
   onToggleTaskStatus,
 }) => {
   const [activeStageFilter, setActiveStageFilter] = useState<string>("");
+
+  // Global AI sales intelligence metrics & advisor tips
+  const activeTasksCount = tasks.filter(t => t.status !== "DONE").length;
+  const {
+    loading: aiLoading,
+    error: aiError,
+    dailySummary,
+    coachingTips,
+    detectedRisks,
+    refetch: refetchGlobalAI
+  } = useGlobalAI(leads, tasks, activities);
 
   // Handle opening lead: changes tab to leads and can let leads list handle filter if needed
   const handleOpenLead = (leadId: string) => {
@@ -97,6 +112,60 @@ export const Overview: React.FC<OverviewProps> = ({
         onScheduleMeeting={handleScheduleMeetingAction}
         onAddTask={handleAddTaskAction}
       />
+
+      {/* Synity AI Intelligence Hub Dashboard Integration */}
+      <div className="bg-white border border-[#D8D8D8] rounded-2xl p-6 space-y-6" id="ai-intelligence-hub-section">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+          <div className="space-y-1 text-left">
+            <h3 className="text-base font-display font-bold text-[#2F2F2F] flex items-center gap-2">
+              <Sparkles className="text-purple-600 animate-pulse" size={18} />
+              Synity AI Intelligence Hub
+            </h3>
+            <p className="text-xs text-gray-500 font-medium">
+              Cognitive CRM assistant monitoring lead responsiveness, pipeline friction, and sales coaches.
+            </p>
+          </div>
+          <button
+            disabled={aiLoading}
+            onClick={() => refetchGlobalAI(activeTasksCount, 5)}
+            className="px-3 py-1.5 rounded-lg border border-[#D8D8D8] bg-white hover:bg-gray-50 text-xs font-bold text-gray-700 flex items-center gap-2 transition-all cursor-pointer self-start sm:self-auto"
+          >
+            <RefreshCw size={12} className={aiLoading ? "animate-spin" : ""} />
+            {aiLoading ? "Recalibrating..." : "Calibrate Pipeline"}
+          </button>
+        </div>
+
+        {aiError && (
+          <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-xs text-red-600 flex items-center gap-2 text-left">
+            <AlertCircle size={14} className="shrink-0" />
+            <span>{aiError}</span>
+          </div>
+        )}
+
+        {/* 1. Daily Summary Panel */}
+        <AISummary summary={dailySummary} loading={aiLoading} />
+
+        {/* 2. Coaching & Threat Diagnostic bento split */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+          {/* Coaching Cards */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 text-left flex items-center gap-1.5">
+              <GraduationCap size={14} className="text-purple-500" />
+              Strategic Conversion Coaching
+            </h4>
+            <CoachingCard tips={coachingTips} loading={aiLoading} />
+          </div>
+
+          {/* Stagnancy Risks Lists */}
+          <div className="lg:col-span-1 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400 text-left flex items-center gap-1.5">
+              <ShieldAlert size={14} className="text-red-500" />
+              Outstanding Pipeline Anomalies
+            </h4>
+            <RiskCard risks={detectedRisks} loading={aiLoading} />
+          </div>
+        </div>
+      </div>
 
       {/* Middle Grid: Priorities and Timeline checklists */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">

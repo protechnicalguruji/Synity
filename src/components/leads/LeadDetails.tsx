@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   Phone, Mail, Globe, MapPin, Calendar, MessageSquare, Plus, Sparkles,
   Clock, CheckSquare, Video, AlertCircle, Edit, User, ListPlus, X,
-  ChevronLeft, Copy, Check, Info, CalendarCheck, FileText, Activity
+  ChevronLeft, Copy, Check, Info, CalendarCheck, FileText, Activity, RefreshCw
 } from "lucide-react";
 import { Lead, LeadStatus, Task, TaskPriority, TaskStatus, ActivityLog, ActivityType } from "../../types";
 import { formatCurrency, formatDate, getConfidenceColor } from "../../utils";
@@ -12,6 +12,11 @@ import { LeadTimeline } from "./LeadTimeline";
 import { LeadNotes } from "./LeadNotes";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
+import { useLeadAI } from "../../lib/ai/hooks/useAI";
+import { LeadHealthCard } from "../ai/LeadHealthCard";
+import { AIInsightCard } from "../ai/AIInsightCard";
+import { AIRecommendationCard } from "../ai/AIRecommendationCard";
+import { MeetingPrepCard } from "../ai/MeetingPrepCard";
 
 interface LeadDetailsProps {
   lead: Lead;
@@ -33,6 +38,17 @@ export const LeadDetails: React.FC<LeadDetailsProps> = ({
   onAddActivity
 }) => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  // Hook into AI intelligence layer
+  const {
+    loading: aiLoading,
+    error: aiError,
+    health,
+    followUp,
+    summary,
+    meetingPrep,
+    refetch: refetchAI
+  } = useLeadAI(lead, activities, tasks);
 
   // Filter tasks & activities associated with this lead
   const leadTasks = tasks.filter((t) => t.leadId === lead.id);
@@ -791,32 +807,56 @@ export const LeadDetails: React.FC<LeadDetailsProps> = ({
               )}
 
               {activeTab === "ai" && (
-                <div className="space-y-5 text-left">
-                  <div className="p-4 bg-gradient-to-tr from-[#E5E3E7]/30 to-[#8CB9D7]/10 border border-[#8CB9D7]/30 rounded-xl space-y-3">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-[#8CB9D7]/20 text-[#3b7194] rounded-lg">
-                        <Sparkles size={14} className="animate-pulse" />
-                      </div>
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">Synity Predictive Closing Insights</h4>
+                <div className="space-y-6 text-left" id="lead-ai-insights-tab">
+                  {/* AI Controller Bar */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gray-50/80 border border-gray-100 p-4 rounded-xl">
+                    <div className="space-y-1">
+                      <h5 className="text-xs font-bold text-[#2F2F2F] flex items-center gap-1.5">
+                        <Sparkles size={14} className="text-purple-500" />
+                        AI Agent Engine Active
+                      </h5>
+                      <p className="text-[11px] text-gray-500 font-medium">
+                        Real-time deal risk tracking, conversation models, and priority check-ins calibrated.
+                      </p>
                     </div>
-
-                    <p className="text-xs text-slate-700 leading-relaxed">
-                      Based on our localized CRM closing indicators, <strong className="font-bold">{lead.company}</strong> has an estimated closing rate of <strong className="font-bold">{lead.confidenceScore}%</strong>. The contact shows consistent touchpoint responsiveness and matches corporate budget signatures for our SaaS licensing.
-                    </p>
+                    <Button
+                      size="xs"
+                      variant="outline"
+                      disabled={aiLoading}
+                      onClick={() => refetchAI()}
+                      className="bg-white border-[#D8D8D8] text-[11px] font-bold self-start sm:self-auto flex items-center gap-1.5"
+                    >
+                      <RefreshCw size={12} className={aiLoading ? "animate-spin" : ""} />
+                      {aiLoading ? "Calibrating..." : "Recalibrate AI"}
+                    </Button>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-4 bg-gray-50 border border-gray-100 rounded-xl space-y-1">
-                      <span className="text-[10px] uppercase font-bold text-[#666666] tracking-wider block">Recommended Action</span>
-                      <p className="text-xs font-bold text-[#2F2F2F] mt-1.5">Deliver Custom SLA Integration Deck</p>
-                      <p className="text-[11px] text-[#666666] mt-1">Providing pre-mapped enterprise modules raises closing probability by +12%.</p>
+                  {aiError && (
+                    <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-xs text-red-600 flex items-center gap-2">
+                      <AlertCircle size={14} className="shrink-0" />
+                      <span>{aiError}</span>
                     </div>
+                  )}
 
-                    <div className="p-4 bg-gray-50 border border-gray-100 rounded-xl space-y-1">
-                      <span className="text-[10px] uppercase font-bold text-[#666666] tracking-wider block">Next Calibration Date</span>
-                      <p className="text-xs font-bold text-[#2F2F2F] mt-1.5">Automatic follow-up trigger set</p>
-                      <p className="text-[11px] text-[#666666] mt-1">AI monitors email reply streams on this track continuously.</p>
-                    </div>
+                  {/* Primary intelligence widgets */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* 1. Health Score */}
+                    <LeadHealthCard health={health} loading={aiLoading} />
+
+                    {/* 2. Core Strategic Summary */}
+                    <AIInsightCard summary={summary} loading={aiLoading} />
+                  </div>
+
+                  {/* 3. Follow-up Recommendations */}
+                  <div className="space-y-2">
+                    <h5 className="text-xs font-bold uppercase tracking-wider text-gray-400">Next Action Recommendation</h5>
+                    <AIRecommendationCard followUp={followUp} loading={aiLoading} />
+                  </div>
+
+                  {/* 4. Meeting Prep */}
+                  <div className="space-y-2">
+                    <h5 className="text-xs font-bold uppercase tracking-wider text-gray-400">Meeting Intelligence</h5>
+                    <MeetingPrepCard prep={meetingPrep} loading={aiLoading} />
                   </div>
                 </div>
               )}

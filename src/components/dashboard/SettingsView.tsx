@@ -14,14 +14,18 @@ import {
   Check,
   Zap,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Cpu,
+  Clock
 } from "lucide-react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { Badge } from "../ui/Badge";
+import { useAISettings } from "../../lib/ai/hooks/useAI";
 
 export const SettingsView: React.FC = () => {
+  const { settings, updateSettings } = useAISettings();
   const [profileName, setProfileName] = useState("Alex Rivers");
   const [profileRole, setProfileRole] = useState("Sales Lead / Architect");
   const [profileEmail, setProfileEmail] = useState("alex@synity.io");
@@ -196,6 +200,134 @@ export const SettingsView: React.FC = () => {
                 </button>
               </div>
 
+            </div>
+          </Card>
+
+          {/* AI Model Calibration Controls */}
+          <Card
+            title="AI Model Calibration Controls"
+            description="Calibrate the primary AI model weights, select active providers, and set daily scheduler pipelines."
+          >
+            <div className="space-y-4 mt-4 text-xs text-left" id="ai-model-calibration-card">
+              {/* Row 1: Provider & Model */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="font-bold text-[#2F2F2F] flex items-center gap-1">
+                    <Cpu size={13} className="text-[#3b7194]" />
+                    AI Intelligence Provider
+                  </label>
+                  <select
+                    value={settings.provider}
+                    onChange={(e) => updateSettings({ provider: e.target.value as any })}
+                    className="w-full rounded-lg border border-[#D8D8D8] p-2 bg-white text-xs text-[#2F2F2F] font-medium focus:ring-1 focus:ring-[#8CB9D7] outline-none"
+                  >
+                    <option value="gemini">Google Gemini API (Active)</option>
+                    <option value="openai">OpenAI GPT-4o (Stub Integration)</option>
+                    <option value="claude">Anthropic Claude 3.5 (Stub Integration)</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="font-bold text-[#2F2F2F] flex items-center gap-1">
+                    <Sparkles size={13} className="text-[#3b7194]" />
+                    LLM Engine Model
+                  </label>
+                  <select
+                    value={settings.model}
+                    onChange={(e) => updateSettings({ model: e.target.value })}
+                    className="w-full rounded-lg border border-[#D8D8D8] p-2 bg-white text-xs text-[#2F2F2F] font-medium focus:ring-1 focus:ring-[#8CB9D7] outline-none"
+                  >
+                    {settings.provider === "gemini" && (
+                      <>
+                        <option value="gemini-1.5-pro">gemini-1.5-pro (High Strategic Insight)</option>
+                        <option value="gemini-1.5-flash">gemini-1.5-flash (High Velocity Execution)</option>
+                      </>
+                    )}
+                    {settings.provider === "openai" && (
+                      <>
+                        <option value="gpt-4o">gpt-4o (Standard Enterprise)</option>
+                        <option value="gpt-4-turbo">gpt-4-turbo</option>
+                      </>
+                    )}
+                    {settings.provider === "claude" && (
+                      <>
+                        <option value="claude-3-5-sonnet">claude-3.5-sonnet-v2</option>
+                        <option value="claude-3-haiku">claude-3-haiku</option>
+                      </>
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              {/* Row 2: Temperature Slider */}
+              <div className="p-3.5 bg-gray-50 border border-gray-100 rounded-xl space-y-2">
+                <div className="flex justify-between items-center text-[11px]">
+                  <span className="font-bold text-[#2F2F2F] flex items-center gap-1.5">
+                    <Zap size={13} className="text-amber-500" />
+                    Generation Temperature
+                  </span>
+                  <span className="font-mono font-bold bg-[#E5E3E7] text-[#2F2F2F] px-2 py-0.5 rounded-sm">
+                    {settings.temperature}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="1.0"
+                  step="0.05"
+                  value={settings.temperature}
+                  onChange={(e) => updateSettings({ temperature: parseFloat(e.target.value) })}
+                  className="w-full accent-gray-700 cursor-pointer"
+                />
+                <div className="flex justify-between text-[9px] text-gray-400 font-medium">
+                  <span>0.1 (Strict & Precise)</span>
+                  <span>0.7 (Balanced Creative Rationale)</span>
+                  <span>1.0 (Highly Dynamic)</span>
+                </div>
+              </div>
+
+              {/* Row 3: Daily Workday Schedule */}
+              <div className="p-3.5 bg-gray-50 border border-gray-100 rounded-xl space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5 text-left">
+                    <span className="font-bold text-[#2F2F2F] flex items-center gap-1.5">
+                      <Clock size={13} className="text-purple-500" />
+                      Daily Workday Planner Cron Triggers
+                    </span>
+                    <p className="text-[10px] text-gray-400 font-medium">
+                      Configure background workflows to assemble your daily mission dashboard automatically.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => updateSettings({ dailyScheduleEnabled: !settings.dailyScheduleEnabled })}
+                    className={`w-10 h-6 rounded-full transition-colors relative cursor-pointer outline-none shrink-0 ${
+                      settings.dailyScheduleEnabled ? "bg-[#4E4E49]" : "bg-gray-300"
+                    }`}
+                  >
+                    <span className={`absolute top-1 left-1 bg-white h-4 w-4 rounded-full transition-transform ${
+                      settings.dailyScheduleEnabled ? "translate-x-4" : "translate-x-0"
+                    }`} />
+                  </button>
+                </div>
+
+                {settings.dailyScheduleEnabled && (
+                  <div className="flex items-center gap-3 border-t border-gray-200/50 pt-2.5">
+                    <div className="space-y-1">
+                      <span className="text-[10px] text-gray-400 font-bold block">Planner Dispatch Time</span>
+                      <input
+                        type="time"
+                        value={settings.dailyScheduleTime}
+                        onChange={(e) => updateSettings({ dailyScheduleTime: e.target.value })}
+                        className="rounded-lg border border-[#D8D8D8] p-1.5 bg-white text-xs font-mono text-[#2F2F2F] outline-none focus:ring-1 focus:ring-[#8CB9D7]"
+                      />
+                    </div>
+                    <p className="text-[10px] text-gray-500 font-medium leading-relaxed mt-4">
+                      Every morning, Synity will run pipeline sweeps to synthesize meetings, follow-ups, and risk signals before your first login.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </Card>
 
