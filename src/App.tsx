@@ -39,6 +39,7 @@ import { Sparkles, Calendar, UserPlus, FileText } from "lucide-react";
 
 // Auth integrations
 import { AuthProvider, useAuth } from "./providers/AuthProvider";
+import { Analytics } from "@vercel/analytics/react";
 import { LoginView } from "./components/auth/LoginView";
 import { SignupView } from "./components/auth/SignupView";
 import { ForgotPasswordView } from "./components/auth/ForgotPasswordView";
@@ -556,6 +557,7 @@ export default function App() {
       <NotificationProvider>
         <AppContent />
         <ToastContainer />
+        <Analytics />
       </NotificationProvider>
     </AuthProvider>
   );
