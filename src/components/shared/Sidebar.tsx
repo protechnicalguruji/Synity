@@ -20,7 +20,8 @@ import {
   Menu,
   FileSpreadsheet,
   MessageSquare,
-  Bell
+  Bell,
+  Zap
 } from "lucide-react";
 import { cn } from "../../utils";
 import { useAuth } from "../../hooks/useAuth";
@@ -69,6 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: "pipeline", label: "Visual Pipeline", icon: <Kanban size={18} /> },
     { id: "tasks", label: "Workday Tasks", icon: <CheckSquare size={18} />, badge: "4" },
     { id: "analytics", label: "Analytics & ROI", icon: <BarChart3 size={18} /> },
+    { id: "automation", label: "AI Automation", icon: <Zap size={18} />, badge: "NEW" },
     { id: "settings", label: "System Settings", icon: <Settings size={18} /> },
   ];
 

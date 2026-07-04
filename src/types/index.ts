@@ -164,3 +164,5 @@ export interface Achievement {
   icon: string;
 }
 
+export * from "./automation";
+

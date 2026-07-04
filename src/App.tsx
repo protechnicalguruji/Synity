@@ -19,6 +19,7 @@ import { TasksView } from "./components/dashboard/TasksView";
 import { AnalyticsDashboard } from "./components/dashboard/AnalyticsDashboard";
 import { SettingsView } from "./components/dashboard/SettingsView";
 import { TodayView } from "./components/dashboard/TodayView";
+import { AutomationView } from "./components/automation/AutomationView";
 import { ImportHub } from "./components/import/ImportHub";
 import { CommunicationHub } from "./components/communication/CommunicationHub";
 import { NotificationCenter } from "./components/notifications/NotificationCenter";
@@ -368,6 +369,8 @@ function AppContent() {
             }}
           />
         );
+      case "automation":
+        return <AutomationView leads={leads} />;
       case "settings":
         return <SettingsView />;
       default:

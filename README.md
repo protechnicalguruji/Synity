@@ -275,6 +275,62 @@ Synity's Business Intelligence & Analytics module is a premium, high-fidelity co
 
 ---
 
+## ⚡ Feature: AI Automation & Workflow Rules Engine
+
+Synity's AI Automation & Workflow Rules Engine is a premium, developer-grade corporate logic orchestration studio. It allows revenue leaders and operations teams to establish complex, multi-stage, event-driven pipelines (Triggers → Conditions → Actions) to automate lead routing, task logging, and CRM housekeeping.
+
+### 📐 Logical Architecture & Reusable Component Map
+1.  **Event-Driven Trigger Selector (`TriggerSelector`)**:
+    *   Listens dynamically to core Sales OS actions such as *Lead Created*, *Status Changed*, *Follow-up Missed*, and *Webhook Payloads*.
+2.  **Expression-Based Criteria Filter (`ConditionBuilder`)**:
+    *   Constructs conditional gates supporting logical operators (**AND** / **OR**) across granular parameters like *Deal Value*, *Country*, and *Days Since Contact*.
+3.  **Sequential Action Dispatcher (`ActionBuilder`)**:
+    *   Configures sequential executions including *Create Workday Task*, *Move Stage*, *Append/Strip Tags*, *Alert Slack Channels*, or trigger *Gemini AI Summary* tasks.
+4.  **Interactive Node Flow Graph (`NodeEditor`)**:
+    *   A responsive canvas visualizing the entire automation hierarchy from trigger block down to action stacks, featuring interactive canvas scaling, floating validation warnings, and mini-map previews.
+5.  **Inline Pipeline Simulator (`TestModeDialog`)**:
+    *   Allows dry-run execution testing on real lead records with live terminal trace logging before publishing.
+6.  **Revision Version History & Rollbacks**:
+    *   Preserves full historical audit trees enabling teams to restore stable rule configs instantly.
+7.  **Sleek Executive Counters & Analytics**:
+    *   Integrates execution speed charts, worker status diagnostics, success metrics, and continuous **Gemini Optimization Recommendations**.
+
+---
+
+## ⚙️ Feature: Workspace Settings & Control Center
+
+Synity's Workspace Settings & Control Center is the central configuration engine for the entire platform, featuring a modular left-sidebar navigation and multi-view detailed panel. It empowers workspace administrators and sales representatives to customize everything from business identities and regional locale boundaries to advanced Gemini LLM temperatures and data-mapping rules.
+
+### 📐 Sub-Sections & Reusable Control Components
+1.  **Tabbed Settings Navigation Sidebar (`SettingsSidebar`)**:
+    *   Features an active search filter to quickly scan and filter through 17+ detailed categories.
+2.  **General Workspace Profiles (`General`)**:
+    *   Saves company branding, operations contact email/phone, currency symbols, and international timezone/date-format boundaries.
+3.  **Active Workspace Identifiers (`WorkspaceCard`)**:
+    *   Displays active database registries, custom workspace URL slugs, and seat quotas.
+4.  **Individual Identity Profile (`Profile`)**:
+    *   Allows representatives to customize avatars, display names, job titles, and brief bio statements.
+5.  **Multi-Channel Alert Center (`NotificationCard`)**:
+    *   Configures alert frequencies and toggles for upcoming calendar meetings, outbound follow-ups, and game achievements.
+6.  **AI Sales Copilot Engine (`AISettingsCard`)**:
+    *   Bridges real-time local model contexts with global hooks, allowing users to modify reasoning models, temperature sliders, and confidence thresholds.
+7.  **Schedules & Working Hours (`BusinessHours`)**:
+    *   Controls active business calendar days, start/dismissal hour blocks, and vacation modes.
+8.  **Visual Pipeline Stage Customizer (`Pipeline`)**:
+    *   Reassigns hex color palettes to custom CRM boards and stages.
+9.  **Communication & VoIP Sockets (`Communication`)**:
+    *   Manages outbound SMTP, Google Calendar, and Twilio voice API connections.
+10. **Data Portability (`ImportExport`)**:
+    *   Sets up CSV header mapping registers, duplicate-merge strategies, and backup exports formats.
+11. **Display & Styling Customizer (`Appearance`)**:
+    *   Supports choosing between Light, Dark, or System OS styling, compact list modes, and reduced motion access.
+12. **Live Session Monitors & Audits (`SecurityCard`)**:
+    *   Tracks current login locations, connected devices, and download access logs.
+13. **Active Sandbox Save-state Alerts (`SaveBar`)**:
+    *   Monitors deep state changes to show a floating action bar for unsaved progress with auto-rollback.
+
+---
+
 ## 🔋 Next Steps
 
 1. **Gemini AI Integration**:
