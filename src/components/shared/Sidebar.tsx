@@ -17,7 +17,8 @@ import {
   TrendingUp,
   LogOut,
   ShieldCheck,
-  Menu
+  Menu,
+  FileSpreadsheet
 } from "lucide-react";
 import { cn } from "../../utils";
 import { useAuth } from "../../hooks/useAuth";
@@ -56,6 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: "today", label: "AI Daily Planner", icon: <Sparkles size={18} />, badge: "AI" },
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
     { id: "leads", label: "Leads Hub", icon: <Users size={18} />, badge: "6" },
+    { id: "import", label: "Smart Import Hub", icon: <FileSpreadsheet size={18} />, badge: "NEW" },
     { id: "pipeline", label: "Visual Pipeline", icon: <Kanban size={18} /> },
     { id: "tasks", label: "Workday Tasks", icon: <CheckSquare size={18} />, badge: "4" },
     { id: "analytics", label: "Analytics & ROI", icon: <BarChart3 size={18} /> },

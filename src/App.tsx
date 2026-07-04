@@ -19,6 +19,7 @@ import { TasksView } from "./components/dashboard/TasksView";
 import { AnalyticsDashboard } from "./components/dashboard/AnalyticsDashboard";
 import { SettingsView } from "./components/dashboard/SettingsView";
 import { TodayView } from "./components/dashboard/TodayView";
+import { ImportHub } from "./components/import/ImportHub";
 
 // Data & constants
 import {
@@ -318,6 +319,18 @@ function AppContent() {
         );
       case "analytics":
         return <AnalyticsDashboard leads={leads} />;
+      case "import":
+        return (
+          <ImportHub
+            existingLeads={leads}
+            onImportLeads={(newLeads, newActivities, newTasks) => {
+              setLeads((prev) => [...newLeads, ...prev]);
+              setActivities((prev) => [...newActivities, ...prev]);
+              setTasks((prev) => [...newTasks, ...prev]);
+            }}
+            onDone={() => setCurrentTab("leads")}
+          />
+        );
       case "settings":
         return <SettingsView />;
       default:

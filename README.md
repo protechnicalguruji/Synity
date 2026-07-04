@@ -179,6 +179,34 @@ If environment keys are not configured, the application **automatically uses the
 
 ---
 
+## ⚡ Flagship Feature: Smart Import Hub
+
+Synity's Smart Import Hub is an enterprise-grade lead ingestion system engineered to process, validate, deduplicate, and merge lead lists from multiple unstructured formats before integrating them into the CRM.
+
+### 📊 Supported File Formats
+*   **Structured Formats**: CSV, Excel (`.xlsx`), Excel (`.xls`), JSON.
+*   **Unstructured Formats**: PDF (Messy columns, tables), Plain Text (`.txt`).
+*   **SaaS Integrations**: Pre-equipped for Google Sheets and CRM export file schemes.
+
+### 🏗️ The 10-Step Smart Import Pipeline
+1.  **Upload File**: Drag-and-drop file uploader zone displaying sizes, limits, and progress animations.
+2.  **Preview Layout**: Interactive scrollable data preview table highlighting empty values and data quality issues.
+3.  **Detect Columns**: Heuristic column auto-detection using semantic mapping and regex scores.
+4.  **Map Fields**: Manual mapping controls allowing custom column target overrides and required field validations.
+5.  **Detect Duplicates**: Cross-referencing against existing CRM databases by Email, Phone, Website, and Brand Name.
+6.  **Validate Records**: Data cleanliness report classifying cell anomalies as blocking Errors or Warning alerts.
+7.  **AI Suggestions (Future-Ready Placeholder)**: Built-in interface toggling upcoming PDF text scanners and sector estimators.
+8.  **Confirm Import**: Configure daily workload assignments (5, 10, 15, 20, or custom leads/day) to the AI Daily Planner.
+9.  **Import Progress**: Animated batch loader with live background worker logs.
+10. **Import Summary**: Post-import efficiency analytics and operation speed reports.
+
+### 🧠 Core Algorithmic Engines
+*   **Semantic Header Detection**: Automatically detects standard CRM keys (e.g. `company`, `name`, `email`) using weighted score heuristics on raw column names.
+*   **Multi-Field Duplicate Validation**: Identifies pre-existing CRM accounts by weighing exact email matches (99% confidence), phone overlaps (90%), identical domains (80%), or nested company strings (70%-85%).
+*   **Smart Overwrite Prevention (Merges)**: Enables salespeople to merge incoming columns into pre-existing CRM leads. Locked fields are untouched, empty gaps are auto-populated, and text logs are safely combined side-by-side.
+
+---
+
 ## 🔋 Next Steps
 
 1. **Gemini AI Integration**:
