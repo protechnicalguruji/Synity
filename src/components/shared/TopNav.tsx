@@ -19,33 +19,41 @@ import {
   User
 } from "lucide-react";
 import { Button } from "../ui/Button";
-import { MOCK_NOTIFICATIONS } from "../../constants";
 import { formatDateTime } from "../../utils";
 import { motion, AnimatePresence } from "motion/react";
 import { useAuth } from "../../providers/AuthProvider";
+import { useNotifications } from "../../providers/NotificationProvider";
+import { NotificationStatus } from "../../types/notification";
 
 export interface TopNavProps {
   onOpenMobileSidebar: () => void;
   onOpenNewLeadModal: () => void;
+  onChangeTab?: (tab: string) => void;
 }
 
 export const TopNav: React.FC<TopNavProps> = ({
   onOpenMobileSidebar,
   onOpenNewLeadModal,
+  onChangeTab,
 }) => {
   const { user, logout } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const { notifications, markAllAsRead, deleteNotification } = useNotifications();
+
+  // Filter to active/snoozed notifications in the top bar dropdown
+  const activeNotifs = notifications.filter(
+    (n) => n.status === NotificationStatus.ACTIVE || n.status === NotificationStatus.SNOOZED
+  );
+  const unreadCount = activeNotifs.filter((n) => !n.isRead).length;
 
   const handleMarkAllRead = () => {
-    setNotifications(notifications.map((n) => ({ ...n, read: true })));
+    markAllAsRead();
   };
 
   const handleClearNotif = (id: string) => {
-    setNotifications(notifications.filter((n) => n.id !== id));
+    deleteNotification(id);
   };
 
   // Compute greeting based on time of day
@@ -157,31 +165,31 @@ export const TopNav: React.FC<TopNavProps> = ({
                   </div>
 
                   <div className="divide-y divide-gray-100 max-h-72 overflow-y-auto">
-                    {notifications.length === 0 ? (
+                    {activeNotifs.length === 0 ? (
                       <div className="p-6 text-center text-xs text-[#666666]">
                         No active notifications. All clean!
                       </div>
                     ) : (
-                      notifications.map((notif) => (
+                      activeNotifs.map((notif) => (
                         <div
                           key={notif.id}
                           className={`p-3.5 text-left transition-all ${
-                            notif.read ? "bg-white" : "bg-[#8CB9D7]/5"
+                            notif.isRead ? "bg-white" : "bg-[#8CB9D7]/5"
                           }`}
                         >
                           <div className="flex items-start justify-between gap-1">
                             <span className="text-[11px] font-bold text-[#2F2F2F] flex items-center gap-1">
-                              {notif.type === "AI_INSIGHT" && (
+                              {notif.type.includes("AI") && (
                                 <Sparkles size={11} className="text-[#8CB9D7] shrink-0" />
                               )}
-                              {notif.type === "FOLLOW_UP" && (
+                              {notif.priority === "CRITICAL" && (
                                 <ShieldAlert size={11} className="text-amber-500 shrink-0" />
                               )}
                               {notif.title}
                             </span>
                             <button
                               onClick={() => handleClearNotif(notif.id)}
-                              className="text-[10px] text-[#666666]/60 hover:text-red-500 font-bold px-1"
+                              className="text-[10px] text-[#666666]/60 hover:text-red-500 font-bold px-1 cursor-pointer"
                             >
                               ×
                             </button>
@@ -197,8 +205,19 @@ export const TopNav: React.FC<TopNavProps> = ({
                     )}
                   </div>
                   
-                  <div className="px-4 py-2 border-t border-[#D8D8D8] bg-gray-50/50 text-center">
-                    <span className="text-[9px] font-bold text-[#666666] tracking-wider uppercase">
+                  <div className="p-2 border-t border-[#D8D8D8] bg-gray-50/50 text-center flex flex-col gap-1.5">
+                    {onChangeTab && (
+                      <button
+                        onClick={() => {
+                          onChangeTab("notifications");
+                          setShowNotifications(false);
+                        }}
+                        className="text-[10px] font-extrabold text-purple-700 hover:underline cursor-pointer py-1 bg-purple-50 hover:bg-purple-100 border border-purple-100 rounded-lg transition-all"
+                      >
+                        Open Notifications Cockpit
+                      </button>
+                    )}
+                    <span className="text-[8px] font-bold text-gray-400 tracking-wider uppercase">
                       Synity Proactive Sales OS
                     </span>
                   </div>

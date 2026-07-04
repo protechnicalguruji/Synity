@@ -230,9 +230,55 @@ Every sent WhatsApp, dial log, and scheduled sync event created inside the Commu
 
 ---
 
+## ⚡ Flagship Feature: Smart Notification & Reminder Engine
+
+Synity's Smart Notification & Reminder Engine is an intelligent, high-fidelity alerting ecosystem that ensures sales teams never miss critical action-points or breach client SLA response guidelines.
+
+### 📐 Structural Sub-Systems
+1.  **Notification & Reminder Provider**:
+    *   **Central State Engine**: Directs active, snoozed, completed, pinned, archived, and dismissed statuses.
+    *   **Smart Priority & Escalation Heuristic**: Automatically upgrades alert urgency based on overdue times and critical SLA contact milestones.
+    *   **Dynamic Snooze Engine**: Postpones active reminders using customizable preset intervals (10m, 30m, 1hr, or Custom durations).
+2.  **Interactive Notification Center Dashboard**:
+    *   **Active Chronological Feed**: Grouped dynamically by Today, Yesterday, and Earlier. Supports instant keyword searches, pinning, and marking-read toggles.
+    *   **Chronological SLA Timeline**: Color-coded segments organizing follow-ups as Overdue Breaches, Due Today, Due Tomorrow, and Upcoming.
+    *   **In-App Floating Toast Portal**: Renders premium real-time notifications with specialized visuals for Success, Warnings, Critical Errors, and AI Insights.
+3.  **Cognitive Executive AI Digests**:
+    *   Generates on-demand synthesized briefings (Morning, Evening, Weekly) summarizing sales pipelines.
+    *   Identifies urgent action-points, reviews overall workflow velocities, and isolates high-priority leads to re-engage.
+4.  **Quiet Hours Focus Buffer**:
+    *   Silences incoming low/medium priority alerts during custom hours while letting Critical Escalations pass unimpeded.
+
+---
+
+## 📊 Feature: Business Intelligence & Analytics Module
+
+Synity's Business Intelligence & Analytics module is a premium, high-fidelity corporate reporting and statistical forecasting workspace designed to evaluate sales pipelines, vertical market yields, geographic opportunity distribution, and team velocity metrics.
+
+### 📐 Analytical Modules & Reusable Chart Components
+1.  **Sales Funnel Velocity Index**:
+    *   Vertical stage-by-stage waterfall visualizer capturing deal volume, progression percentages, and transition drop-off ratios.
+2.  **Pipeline Revenue Liquidity**:
+    *   Compares gross active contract value, realized bookings, lost opportunities, and expected revenue weighted by stage probabilities.
+3.  **B2B Industry & Geographic Distribution**:
+    *   Horizontal bar arrays segmenting B2B verticals (e.g., Biotech, Real Estate) and concentric donut charts indicating global customer acquisition yields.
+4.  **Activity & Productivity Streaks Console**:
+    *   Composed actual-vs-target metrics trackers paired with dynamic flame gauges representing daily outbound work streaks.
+5.  **AI Sales Revenue Forecaster**:
+    *   Predictive modeling displaying Expected, Likely, Optimistic, and Pessimistic ranges computed via continuous pipeline probabilities.
+6.  **Milestone & Goal Progress Tracker**:
+    *   Visual progress indicators aligning realized bookings, outreach calls, and discovery meetings against monthly targets.
+7.  **Loss Analysis & Recovery Engine**:
+    *   Evaluates primary revenue leak sources (such as budget freezes, competitor matches) and lists specific deal chokes.
+8.  **Automatic Dispatch Scheduler & Exports**:
+    *   Triggers real-time client-side CSV compiling and print-ready PDF formats, with customizable daily, weekly, and monthly email dispatch presets.
+
+---
+
 ## 🔋 Next Steps
 
 1. **Gemini AI Integration**:
    * Implement server-side proxies (`/api/ai/score`, `/api/ai/follow-up`) using the `@google/genai` TypeScript SDK.
    * Leverage client-authored sales notes to dynamically update a lead's `confidenceScore` and draft tailored outreach content.
+
 

@@ -21,6 +21,9 @@ import { SettingsView } from "./components/dashboard/SettingsView";
 import { TodayView } from "./components/dashboard/TodayView";
 import { ImportHub } from "./components/import/ImportHub";
 import { CommunicationHub } from "./components/communication/CommunicationHub";
+import { NotificationCenter } from "./components/notifications/NotificationCenter";
+import { NotificationProvider } from "./providers/NotificationProvider";
+import { ToastContainer } from "./components/communication/ToastContainer";
 
 // Data & constants
 import {
@@ -357,6 +360,14 @@ function AppContent() {
             onDone={() => setCurrentTab("leads")}
           />
         );
+      case "notifications":
+        return (
+          <NotificationCenter
+            onOpenLeadProfile={(leadId) => {
+              setCurrentTab("leads");
+            }}
+          />
+        );
       case "settings":
         return <SettingsView />;
       default:
@@ -389,6 +400,7 @@ function AppContent() {
         <TopNav
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
           onOpenNewLeadModal={() => setIsNewLeadModalOpen(true)}
+          onChangeTab={setCurrentTab}
         />
 
         {/* Dynamic Canvas Container */}
@@ -538,7 +550,10 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <NotificationProvider>
+        <AppContent />
+        <ToastContainer />
+      </NotificationProvider>
     </AuthProvider>
   );
 }

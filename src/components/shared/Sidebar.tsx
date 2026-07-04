@@ -19,10 +19,12 @@ import {
   ShieldCheck,
   Menu,
   FileSpreadsheet,
-  MessageSquare
+  MessageSquare,
+  Bell
 } from "lucide-react";
 import { cn } from "../../utils";
 import { useAuth } from "../../hooks/useAuth";
+import { useNotifications } from "../../providers/NotificationProvider";
 
 export interface SidebarProps {
   currentTab: string;
@@ -52,7 +54,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       .slice(0, 2);
   };
 
+  const { notifications } = useNotifications();
   const initials = user ? getInitials(user.name) : "AR";
+
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const menuItems = [
     { id: "today", label: "AI Daily Planner", icon: <Sparkles size={18} />, badge: "AI" },
@@ -60,6 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: "leads", label: "Leads Hub", icon: <Users size={18} />, badge: "6" },
     { id: "communication", label: "Universal Comms Hub", icon: <MessageSquare size={18} />, badge: "NEW" },
     { id: "import", label: "Smart Import Hub", icon: <FileSpreadsheet size={18} />, badge: "NEW" },
+    { id: "notifications", label: "Smart Reminders", icon: <Bell size={18} />, badge: unreadCount > 0 ? String(unreadCount) : undefined },
     { id: "pipeline", label: "Visual Pipeline", icon: <Kanban size={18} /> },
     { id: "tasks", label: "Workday Tasks", icon: <CheckSquare size={18} />, badge: "4" },
     { id: "analytics", label: "Analytics & ROI", icon: <BarChart3 size={18} /> },
